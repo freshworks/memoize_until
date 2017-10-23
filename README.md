@@ -52,3 +52,5 @@ and add the following line to `application.rb`:
 ```ruby
 require 'memoize_until'
 ```
+
+This project is Licensed under the MIT License. Further details can be found [here](/LICENSE).
