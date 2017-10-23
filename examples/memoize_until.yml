@@ -1,0 +1,15 @@
+:day:
+  - :default
+  - :app_defaults_from_redis
+:hour:
+  - :default
+  - :integration_settings_from_external_app
+:min:
+  - :default
+  - :micro_service_availability
+:week:
+  - :default
+  - :app_config_from_db
+:month:
+  - :default
+  - :app_settings_from_db
