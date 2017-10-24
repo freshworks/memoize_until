@@ -13,4 +13,5 @@ Gem::Specification.new do |s|
   s.homepage      = %q{http://rubygems.org/gems/memoize_until}
   s.license       = %q{MIT}
   s.add_development_dependency 'concurrent-ruby', '~> 1.0'
+  s.add_development_dependency 'minitest', '~> 5.0'
 end
