@@ -48,9 +48,15 @@ After creating the memoize_until.yml file, change your `Gemfile` to:
 ```ruby
 gem 'memoize_until', require: false
 ```
-and add the following line to `application.rb`:
+and add the following line anywhere in your application like `application.rb, config/initializers/memoize_until.rb, etc.`:
 ```ruby
 require 'memoize_until'
+```
+The caveat here is, memoize_until should be required only after Rails has been initialised. 
+
+To run test cases,
+```ruby
+ruby -Ilib:test test/test_memoize_until.rb
 ```
 
 This project is Licensed under the MIT License. Further details can be found [here](/LICENSE).
