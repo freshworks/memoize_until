@@ -4,8 +4,10 @@ This gem is an extension to the standard **memoization pattern**.
 
 Use cases that this solves are as follows:
 
-* Memoization of configurations stored in Redis/DB that do not change frequently.
-* Memoization of 3rd party configurations or results that do not change frequently.
+* Fixed interval memoization of complex operations
+* Consistent local memoization pattern across multiple processes/instances
+* Memoization of app configurations stored in datastores like Redis, mysql, etc. that are not required to be real-time
+* Memoization of 3rd party configurations or responses that are not required to be real-time
 
 Usage:
 
@@ -19,20 +21,7 @@ irb:> }
 irb:> # memoizes and returns the result of #PerformSomeComplexOperation
 ```
 
-The default keys that come with the gem are: 
-
-1. day
-	1. default
-1. hour
-	1. default
-1. min
-	1. default
-1. week
-	1. default
-1. month
-	1. default
-
-The higher level keys denote the duration until which you wish to memoize the result. For eg.) `MemoizeUntil.day` will memoize the results until the end of the current day. Similarly other top-level keys act as the `API` for `MemoizeUntil` class.
+The default API that the gem provides is: `MemoizeUntil#min, MemoizeUntil#hour, MemoizeUntil#day, MemoizeUntil#week, MemoizeUntil#month` with `default` key.
 
 ## Rails
 
@@ -48,7 +37,7 @@ After creating the memoize_until.yml file, change your `Gemfile` to:
 ```ruby
 gem 'memoize_until', require: false
 ```
-and add the following line anywhere in your application like `application.rb, config/initializers/memoize_until.rb, etc.`:
+and add the following line anywhere in your application like `application.rb, config/initializers/memoize_until.rb, etc`
 ```ruby
 require 'memoize_until'
 ```
@@ -56,7 +45,7 @@ The caveat here is, memoize_until should be required only after Rails has been i
 
 To run test cases,
 ```ruby
-ruby -Ilib:test test/test_memoize_until.rb
+ruby -Ilib:test test/memoize_until.rb
 ```
 
 This project is Licensed under the MIT License. Further details can be found [here](/LICENSE).
