@@ -1,13 +1,6 @@
 # MemoizeUntil
 
-This gem is an extension to the standard **memoization pattern**.
-
-Use cases that this solves are as follows:
-
-* Fixed interval memoization of complex operations
-* Consistent local memoization pattern across multiple processes/instances
-* Memoization of app configurations stored in datastores like Redis, mysql, etc. that are not required to be real-time
-* Memoization of 3rd party configurations or responses that are not required to be real-time
+This gem is an extension to the standard `memoization` pattern for storing expensive computations or network calls `in-mmemory`. Unlike other memoization extensions which expire after a pre-defined interval, this gem provides a consistent memoization behavior across multiple processes/servers i.e. keys expire simultaneously across all processes.
 
 Usage:
 
@@ -18,10 +11,10 @@ irb:> require 'memoize_until'
 irb:> MemoizeUntil.day(:default) {
 irb:> 	PerformSomeComplexOperation
 irb:> }
-irb:> # memoizes and returns the result of #PerformSomeComplexOperation
+irb:> # memoizes(until the end of the day) and returns the result of #PerformSomeComplexOperation
 ```
 
-The default API that the gem provides is: `MemoizeUntil#min, MemoizeUntil#hour, MemoizeUntil#day, MemoizeUntil#week, MemoizeUntil#month` with `default` key.
+The default API that the gem provides is: `MemoizeUntil#min, MemoizeUntil#hour, MemoizeUntil#day, MemoizeUntil#week, MemoizeUntil#month` with `default` keys.
 
 ## Rails
 
@@ -47,5 +40,10 @@ To run test cases,
 ```ruby
 ruby -Ilib:test test/memoize_until.rb
 ```
+
+## To-do:
+
+* To extend this gem as `Rails.local_cache.day(:default) {}` if included in a Rails application.
+
 
 This project is Licensed under the MIT License. Further details can be found [here](/LICENSE).
