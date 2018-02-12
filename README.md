@@ -46,7 +46,8 @@ require 'memoize_until'
 The caveat here is, memoize_until should be required only after Rails has been initialised. 
 
 To run test cases,
-```ruby
+```shell
+gem install --dev memoize_until
 ruby -Ilib:test test/memoize_until.rb
 ```
 
