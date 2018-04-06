@@ -1,16 +1,8 @@
 # MemoizeUntil
 
-This gem is an extension to the standard **memoization pattern**.
-
-Use cases that this solves are as follows:
-
-* Fixed interval memoization of complex operations
-* Consistent local memoization pattern across multiple processes/instances
-* Memoization of app configurations stored in datastores like Redis, mysql, etc. that are not required to be real-time
-* Memoization of 3rd party configurations or responses that are not required to be real-time
+This gem is an extension to the standard `memoization` pattern for storing expensive computations or network calls `in-mmemory`. Unlike other memoization extensions which expire after a pre-defined interval, this gem provides a consistent memoization behavior across multiple processes/servers i.e. keys expire simultaneously across all processes.
 
 Usage:
-
 ```ruby
 gem install memoize_until
 > irb
@@ -18,10 +10,20 @@ irb:> require 'memoize_until'
 irb:> MemoizeUntil.day(:default) {
 irb:> 	PerformSomeComplexOperation
 irb:> }
-irb:> # memoizes and returns the result of #PerformSomeComplexOperation
+irb:> # memoizes(until the end of the day) and returns the result of #PerformSomeComplexOperation
 ```
 
-The default API that the gem provides is: `MemoizeUntil#min, MemoizeUntil#hour, MemoizeUntil#day, MemoizeUntil#week, MemoizeUntil#month` with `default` key.
+The default API that the gem provides is: `MemoizeUntil#min, MemoizeUntil#hour, MemoizeUntil#day, MemoizeUntil#week, MemoizeUntil#month` with `default` keys. 
+
+To add new keys during run_time, you can also leverage the `extend` API:
+```ruby
+irb:> MemoizeUntil::DAY.extend(:runtime_key) 
+irb:> MemoizeUntil.day(:runtime_key) {
+irb:> 	PerformSomeComplexRuntimeOperation
+irb:> }
+irb:> # memoizes(until the end of the day) and returns the result of #PerformSomeComplexOperation
+```
+The same can be done for other default classes as well: `MemoizeUntil::MIN, MemoizeUntil::HOUR, MemoizeUntil::WEEK, MemoizeUntil::MONTH`
 
 ## Rails
 
@@ -44,7 +46,8 @@ require 'memoize_until'
 The caveat here is, memoize_until should be required only after Rails has been initialised. 
 
 To run test cases,
-```ruby
+```shell
+gem install --dev memoize_until
 ruby -Ilib:test test/memoize_until.rb
 ```
 
