@@ -1,6 +1,4 @@
-require 'minitest/autorun'
-require 'memoize_until'
-require 'concurrent'
+require "test_helper"
 
 class MemoizeUntilTest < Minitest::Test
 
@@ -23,7 +21,7 @@ class MemoizeUntilTest < Minitest::Test
 	def test_exception
 		clear_day
 		assert_raises MemoizeUntil::NotImplementedError do 
-			memoize_day(:new_key) { "hello world" }
+			memoize_day(:exception) { "hello world" }
 		end
 	end
 
@@ -31,7 +29,7 @@ class MemoizeUntilTest < Minitest::Test
 		clear_week
 		memoize_week(:default) { nil }
 		return_val = memoize_week(:default) { 123 }
-		assert_equal return_val, nil # memoizes nil 
+		assert_nil return_val
 	end
 
 	def test_extend

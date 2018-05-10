@@ -35,20 +35,10 @@ gem 'memoize_until'
 
 For most use cases, the list of keys that come will not suffice. You can define your custom list of config keys that you wish to memoize for, by including a `config/memoize_until.yml` in the root directory of your application. Here is an [example](/examples/memoize_until.yml) to help you with the file structure. 
 
-After creating the memoize_until.yml file, change your `Gemfile` to:
-```ruby
-gem 'memoize_until', require: false
-```
-and add the following line anywhere in your application like `application.rb, config/initializers/memoize_until.rb, etc`
-```ruby
-require 'memoize_until'
-```
-The caveat here is, memoize_until should be required only after Rails has been initialised. 
-
 To run test cases,
 ```shell
 gem install --dev memoize_until
-ruby -Ilib:test test/memoize_until.rb
+ruby -Ilib:test test/memoize_until_test.rb
 ```
 
 This project is Licensed under the MIT License. Further details can be found [here](/LICENSE).
