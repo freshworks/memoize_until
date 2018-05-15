@@ -35,6 +35,7 @@ gem 'memoize_until'
 
 For most use cases, the list of keys that come will not suffice. You can define your custom list of config keys that you wish to memoize for, by including a `config/memoize_until.yml` in the root directory of your application. Here is an [example](/examples/memoize_until.yml) to help you with the file structure. 
 
+## Testing
 To run test cases,
 ```shell
 gem install --dev memoize_until
