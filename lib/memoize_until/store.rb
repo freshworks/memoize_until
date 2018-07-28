@@ -39,10 +39,6 @@ class MemoizeUntil
             def clear_for(key, moment)
                 @key_val[key][moment] = nil
             end
-
-            def clear_all(key)
-                @key_val[key] = {}
-            end
         end
     end
 end
