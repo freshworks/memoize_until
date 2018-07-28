@@ -1,6 +1,6 @@
 # MemoizeUntil
 
-This gem is an extension to the standard `memoization` pattern for storing expensive computations or network calls `in-mmemory`. Unlike other memoization extensions which expire after a pre-defined interval, this gem provides a consistent memoization behavior across multiple processes/servers i.e. keys expire simultaneously across all processes.
+This gem is an extension to the standard `memoization` pattern for storing expensive computations or network calls `in-memory`. Unlike other memoization extensions which expire after a pre-defined interval, this gem provides a consistent memoization behavior across multiple processes/servers i.e. keys expire simultaneously across all processes.
 
 Usage:
 ```ruby
