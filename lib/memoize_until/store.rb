@@ -12,12 +12,16 @@ class MemoizeUntil
             end
 
             def extend(key)
-                @key_val[key] = {}
+                @key_val[key] = {} unless exists?(key)
             end
             alias_method :clear_all, :extend
             private :clear_all
 
             private
+
+            def exists?(key)
+                @key_val[key]
+            end
 
             def set_nil(value)
                 value.nil? ? NullObject.instance : value
@@ -32,7 +36,7 @@ class MemoizeUntil
             end
 
             def get(key, moment)
-                raise NotImplementedError unless @key_val[key]
+                raise NotImplementedError unless exists?(key)
                 @key_val[key][moment]
             end
 
