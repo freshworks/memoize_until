@@ -21,10 +21,12 @@ class MemoizeUntil
             def extend(key)
                 _store[key] ||= {}
             end
-            alias_method :clear_all, :extend
-            private :clear_all
 
             private
+
+            def clear_all(key)
+                _store[key] = {}
+            end
 
             def set_nil(value)
                 value.nil? ? NullObject.instance : value
