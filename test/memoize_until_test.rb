@@ -4,11 +4,24 @@ class MemoizeUntilTest < Minitest::Test
 
 	def test_thread_safety
 		clear_all_values
-		latch = Concurrent::CountDownLatch.new(1)
-		Thread.new { latch.wait; memoize_day(:default) { "hello world" } }
-		Thread.new { latch.wait; memoize_min(:default) { "hello world" } }
-		Thread.new { latch.wait; memoize_week(:default) { "hello world" } }
-		latch.count_down
+		latch = Concurrent::CountDownLatch.new(3)
+		waiter = Thread.new do
+			latch.wait()
+			assert_equal memoize_day(:default) { }, "hello world"
+		end
+		t1 = Thread.new do
+			memoize_day(:default) { "hello world" }
+			latch.count_down
+		end
+		t2 = Thread.new do
+			memoize_day(:default) { "hello world" }
+			latch.count_down
+		end
+		t3 = Thread.new do
+			memoize_day(:default) { "hello world" }
+			latch.count_down
+		end
+		[waiter, t1, t2, t3].each(&:join)
 	end
 
 	def test_basic_functionality
@@ -35,6 +48,9 @@ class MemoizeUntilTest < Minitest::Test
 	def test_extend
 		MemoizeUntil.extend(:day, :new_key)
 		memoize_day(:new_key) { 1000 * 1000 }
+		return_val = memoize_day(:new_key) { 1 }
+		assert_equal return_val, 1000 * 1000
+		MemoizeUntil.extend(:day, :new_key)
 		return_val = memoize_day(:new_key) { 1 }
 		assert_equal return_val, 1000 * 1000
 	end
