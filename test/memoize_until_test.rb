@@ -33,7 +33,7 @@ class MemoizeUntilTest < Minitest::Test
 	end
 
 	def test_extend
-		MemoizeUntil::DAY.extend(:new_key)
+		MemoizeUntil.extend(:day, :new_key)
 		memoize_day(:new_key) { 1000 * 1000 }
 		return_val = memoize_day(:new_key) { 1 }
 		assert_equal return_val, 1000 * 1000

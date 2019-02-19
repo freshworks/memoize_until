@@ -1,25 +1,31 @@
 class MemoizeUntil
+
+	memoizable_attributes = YAML.load_file("#{__dir__}/config/defaults.yml")
 	
-	# Rails check is for tests to run without whining about Rails not being defined.
 	if defined?(Rails) && File.exists?("#{Rails.root}/config/memoize_until.yml")
-		load_path = "#{Rails.root}/config/memoize_until.yml"
-	else
-		load_path = "#{__dir__}/config/defaults.yml"
+		memoizable_attributes.deep_merge!(YAML.load_file("#{Rails.root}/config/memoize_until.yml"))
 	end
-	memoizable_attributes = YAML.load_file(load_path)
+	
+	KLASS_MAP = {}
 	
 	memoizable_attributes.each do |kind, keys|
+		
 		klass = const_set(kind.upcase, Class.new(Store))
-		klass.class_eval do
-			@key_val = {}
-			keys.each { |key|
-				@key_val[key] = {}
-			}
-		end
+		klass.init!
+		
+		keys.each { |key|
+			klass.extend(key)
+		}
 		
 		define_singleton_method(kind) do |key, &block|
-			klass.send(:fetch, key, kind, &block)
+			klass.fetch(key, kind, &block)
 		end
+
+		KLASS_MAP[kind] = klass
 		
+	end
+
+	def self.extend(kind, key)
+		KLASS_MAP[kind].extend(key)
 	end
 end
