@@ -19,16 +19,12 @@ class MemoizeUntil
             end
 
             def extend(key)
-                _store[key] = {} unless exists?(key)
+                _store[key] ||= {}
             end
             alias_method :clear_all, :extend
             private :clear_all
 
             private
-
-            def exists?(key)
-                _store[key]
-            end
 
             def set_nil(value)
                 value.nil? ? NullObject.instance : value
@@ -43,8 +39,9 @@ class MemoizeUntil
             end
 
             def get(key, moment)
-                raise NotImplementedError unless exists?(key)
-                _store[key][moment]
+                purpose = _store[key]
+                raise NotImplementedError unless purpose
+                purpose[moment]
             end
 
             def clear_for(key, moment)
