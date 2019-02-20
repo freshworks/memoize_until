@@ -2,12 +2,13 @@ require "test_helper"
 
 class MemoizeUntilTest < Minitest::Test
 
-	def test_thread_safety
+	def test_basic_functionality_with_thread_safety
 		clear_all_values
 		latch = Concurrent::CountDownLatch.new(3)
 		waiter = Thread.new do
 			latch.wait()
-			assert_equal memoize_day(:default) { }, "hello world"
+			return_val = memoize_day(:default) { "new value" }
+			assert_equal return_val, "hello world"
 		end
 		t1 = Thread.new do
 			memoize_day(:default) { "hello world" }
@@ -24,13 +25,6 @@ class MemoizeUntilTest < Minitest::Test
 		[waiter, t1, t2, t3].each(&:join)
 	end
 
-	def test_basic_functionality
-		clear_day
-		memoize_day(:default) { "hello world" }
-		return_val = memoize_day(:default) { 123 } # doesn't eval the block again
-		assert_equal return_val, "hello world"
-	end
-
 	def test_exception
 		clear_day
 		assert_raises MemoizeUntil::NotImplementedError do 
@@ -45,22 +39,18 @@ class MemoizeUntilTest < Minitest::Test
 		assert_nil return_val
 	end
 
-	def test_extend
+	def test_multi_extend
 		MemoizeUntil.extend(:day, :new_key)
-		memoize_day(:new_key) { 1000 * 1000 }
-		return_val = memoize_day(:new_key) { 1 }
-		assert_equal return_val, 1000 * 1000
+		memoize_day(:new_key) { 1000 }
 		MemoizeUntil.extend(:day, :new_key)
 		return_val = memoize_day(:new_key) { 1 }
-		assert_equal return_val, 1000 * 1000
+		assert_equal return_val, 1000
 	end
 
 	def test_memoization_expiration
-		clear_min
 		memoize_min(:default) { "hello world" }
 		sleep(60)
-		memoize_min(:default) { "hello world 2" }
-		return_val = memoize_min(:default) { "hello world" }
+		return_val = memoize_min(:default) { "hello world 2" }
 		assert_equal return_val, "hello world 2"
 	end
 
