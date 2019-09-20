@@ -17,7 +17,7 @@ The default API that the gem provides is: `MemoizeUntil#min, MemoizeUntil#hour, 
 
 To add new keys during run_time, you can also leverage the `extend` API:
 ```ruby
-irb:> MemoizeUntil::DAY.extend(:runtime_key) 
+irb:> MemoizeUntil.extend(:day, :runtime_key) 
 irb:> MemoizeUntil.day(:runtime_key) {
 irb:> 	PerformSomeComplexRuntimeOperation
 irb:> }
@@ -38,7 +38,7 @@ For most use cases, the list of keys that come will not suffice. You can define 
 ## Testing
 To run test cases,
 ```shell
-gem install --dev memoize_until
+bundle install
 ruby -Ilib:test test/memoize_until_test.rb
 ```
 

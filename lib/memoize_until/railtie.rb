@@ -8,9 +8,7 @@ class MemoizeUntil::Railtie < Rails::Railtie
         require 'memoize_until/extensions'
 
         # patches
-        unless Time.instance_methods.include?(:week)
-            require 'memoize_until/time_patch'
-        end
+        require 'memoize_until/time_patch'
     end
     
 end
