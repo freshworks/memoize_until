@@ -2,7 +2,7 @@ class MemoizeUntil
     class Store
         
         class << self
-            attr_accessor :_store
+            attr_reader :_store
 
             def init!
                 @_store = {}
