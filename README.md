@@ -15,15 +15,15 @@ irb:> # memoizes(until the end of the day) and returns the result of #PerformSom
 
 The default API that the gem provides is: `MemoizeUntil#min, MemoizeUntil#hour, MemoizeUntil#day, MemoizeUntil#week, MemoizeUntil#month` with `default` keys. 
 
-To add new keys during run_time, you can also leverage the `extend` API:
+To add new keys during run_time, you can also leverage the `add_to` API:
 ```ruby
-irb:> MemoizeUntil.extend(:day, :runtime_key) 
+irb:> MemoizeUntil.add_to(:day, :runtime_key) 
 irb:> MemoizeUntil.day(:runtime_key) {
 irb:> 	PerformSomeComplexRuntimeOperation
 irb:> }
 irb:> # memoizes(until the end of the day) and returns the result of #PerformSomeComplexOperation
 ```
-The same can be done for other default classes as well: `MemoizeUntil::MIN, MemoizeUntil::HOUR, MemoizeUntil::WEEK, MemoizeUntil::MONTH`
+The same can be done for other default kinds as well: `min, hour, week, month`
 
 ## Rails
 

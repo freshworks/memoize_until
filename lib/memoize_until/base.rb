@@ -5,27 +5,26 @@ class MemoizeUntil
 	if defined?(Rails) && File.exists?("#{Rails.root}/config/memoize_until.yml")
 		memoizable_attributes.deep_merge!(YAML.load_file("#{Rails.root}/config/memoize_until.yml"))
 	end
-	
-	KLASS_MAP = {}
+
+	TYPE_FACTORY = {}
 	
 	memoizable_attributes.each do |kind, keys|
 		
-		klass = const_set(kind.upcase, Class.new(Store))
-		klass.init!
+		typed = Store.new(kind)
 		
 		keys.each { |key|
-			klass.extend(key)
+			typed.add(key)
 		}
 		
 		define_singleton_method(kind) do |key, &block|
-			klass.fetch(key, kind, &block)
+			typed.fetch(kind, &block)
 		end
 
-		KLASS_MAP[kind] = klass
+		TYPE_FACTORY[kind] = typed
 		
 	end
 
-	def self.extend(kind, key)
-		KLASS_MAP[kind].extend(key)
+	def self.add_to(kind, key)
+		TYPE_FACTORY[kind].add(key)
 	end
 end
