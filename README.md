@@ -13,9 +13,9 @@ irb:> end
 irb:> # memoizes(until the end of the day) and returns the result of #PerformSomeComplexOperation
 ```
 
-The default API that the gem provides is: `MemoizeUntil#min, MemoizeUntil#hour, MemoizeUntil#day, MemoizeUntil#week, MemoizeUntil#month` with `default` keys. 
+The default API that the gem provides is: `MemoizeUntil#min, MemoizeUntil#hour, MemoizeUntil#day, MemoizeUntil#week, MemoizeUntil#month` with `default` purposes(keys). 
 
-To add new keys during run_time, you can also leverage the `add_to` API:
+To add new purposes during run_time, you can also leverage the `add_to` API:
 ```ruby
 irb:> MemoizeUntil.add_to(:day, :runtime_key) 
 irb:> MemoizeUntil.day(:runtime_key) do
@@ -33,7 +33,7 @@ To use this gem in a rails application, add the following line to your `Gemfile`
 gem 'memoize_until'
 ```
 
-For most use cases, the list of keys that come will not suffice. You can define your custom list of config keys that you wish to memoize for, by including a `config/memoize_until.yml` in the root directory of your application. Here is an [example](/examples/memoize_until.yml) to help you with the file structure. 
+For most use cases, the list of purposes that come will not suffice. You can define your custom list of config purposes that you wish to memoize for, by including a `config/memoize_until.yml` in the root directory of your application. Here is an [example](/examples/memoize_until.yml) to help you with the file structure. 
 
 ## Testing
 To run test cases,
