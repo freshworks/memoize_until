@@ -7,9 +7,9 @@ Usage:
 gem install memoize_until
 > irb
 irb:> require 'memoize_until'
-irb:> MemoizeUntil.day(:default) {
+irb:> MemoizeUntil.day(:default) do
 irb:> 	PerformSomeComplexOperation
-irb:> }
+irb:> end
 irb:> # memoizes(until the end of the day) and returns the result of #PerformSomeComplexOperation
 ```
 
@@ -18,9 +18,9 @@ The default API that the gem provides is: `MemoizeUntil#min, MemoizeUntil#hour, 
 To add new keys during run_time, you can also leverage the `add_to` API:
 ```ruby
 irb:> MemoizeUntil.add_to(:day, :runtime_key) 
-irb:> MemoizeUntil.day(:runtime_key) {
+irb:> MemoizeUntil.day(:runtime_key) do
 irb:> 	PerformSomeComplexRuntimeOperation
-irb:> }
+irb:> end
 irb:> # memoizes(until the end of the day) and returns the result of #PerformSomeComplexOperation
 ```
 The same can be done for other default kinds as well: `min, hour, week, month`

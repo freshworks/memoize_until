@@ -81,15 +81,15 @@ class MemoizeUntilTest < Minitest::Test
 	end
 
 	def clear_day
-		MemoizeUntil::TYPE_FACTORY[:day].clear_all(:default)
+		MemoizeUntil.const_get(:TYPE_FACTORY)[:day].clear_all(:default)
 	end
 
 	def clear_min
-		MemoizeUntil::TYPE_FACTORY[:min].clear_all(:default)
+		MemoizeUntil.const_get(:TYPE_FACTORY)[:min].clear_all(:default)
 	end
 
 	def clear_week
-		MemoizeUntil::TYPE_FACTORY[:week].clear_all(:default)
+		MemoizeUntil.const_get(:TYPE_FACTORY)[:week].clear_all(:default)
 	end
 
 end
