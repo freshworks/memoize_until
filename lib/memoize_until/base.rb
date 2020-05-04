@@ -17,7 +17,7 @@ class MemoizeUntil
 		}
 		
 		define_singleton_method(kind) do |key, &block|
-			typed.fetch(kind, &block)
+			typed.fetch(key, &block)
 		end
 
 		TYPE_FACTORY[kind] = typed

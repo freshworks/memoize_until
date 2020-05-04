@@ -39,10 +39,10 @@ class MemoizeUntilTest < Minitest::Test
 		assert_nil return_val
 	end
 
-	def test_multi_extend
-		MemoizeUntil.extend(:day, :new_key)
+	def test_multi_add_to
+		MemoizeUntil.add_to(:day, :new_key)
 		memoize_day(:new_key) { 1000 }
-		MemoizeUntil.extend(:day, :new_key)
+		MemoizeUntil.add_to(:day, :new_key)
 		return_val = memoize_day(:new_key) { 1 }
 		assert_equal return_val, 1000
 	end
