@@ -7,10 +7,10 @@ Usage:
 gem install memoize_until
 > irb
 irb:> require 'memoize_until'
-irb:> MemoizeUntil.day(:default) do
-irb:> 	PerformSomeComplexOperation
-irb:> end
-irb:> # memoizes(until the end of the day) and returns the result of #PerformSomeComplexOperation
+irb:> result = MemoizeUntil.day(:default) do
+irb:> 	# PerformSomeComplexOperation
+irb:> end # memoizes(until the end of the day) and returns the result of #PerformSomeComplexOperation
+irb:> p result.inspect
 ```
 
 The default API that the gem provides is: `MemoizeUntil#min, MemoizeUntil#hour, MemoizeUntil#day, MemoizeUntil#week, MemoizeUntil#month` with `default` purposes(keys). 
@@ -18,10 +18,10 @@ The default API that the gem provides is: `MemoizeUntil#min, MemoizeUntil#hour, 
 To add new purposes during run_time, you can also leverage the `add_to` API:
 ```ruby
 irb:> MemoizeUntil.add_to(:day, :runtime_key) 
-irb:> MemoizeUntil.day(:runtime_key) do
-irb:> 	PerformSomeComplexRuntimeOperation
-irb:> end
-irb:> # memoizes(until the end of the day) and returns the result of #PerformSomeComplexOperation
+irb:> result = MemoizeUntil.day(:runtime_key) do
+irb:> 	# PerformSomeComplexRuntimeOperation
+irb:> end # memoizes(until the end of the day) and returns the result of #PerformSomeComplexOperation
+irb:> p result.inspect
 ```
 The same can be done for other default kinds as well: `min, hour, week, month`
 
