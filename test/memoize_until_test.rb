@@ -2,8 +2,11 @@ require "test_helper"
 
 class MemoizeUntilTest < Minitest::Test
 
-	def test_basic_functionality_with_thread_safety
+	def setup
 		clear_all_values
+	end
+
+	def test_basic_functionality_with_thread_safety
 		latch = Concurrent::CountDownLatch.new(3)
 		waiter = Thread.new do
 			latch.wait()
@@ -26,14 +29,12 @@ class MemoizeUntilTest < Minitest::Test
 	end
 
 	def test_exception
-		clear_day
 		assert_raises MemoizeUntil::NotImplementedError do 
 			memoize_day(:exception) { "hello world" }
 		end
 	end
 
 	def test_nil
-		clear_week
 		memoize_week(:default) { nil }
 		return_val = memoize_week(:default) { 123 }
 		assert_nil return_val
@@ -52,6 +53,14 @@ class MemoizeUntilTest < Minitest::Test
 		sleep(60)
 		return_val = memoize_min(:default) { "hello world 2" }
 		assert_equal return_val, "hello world 2"
+	end
+
+	def test_clear_now_for
+		return_val = memoize_day(:default) { 1 }
+		assert_equal return_val, 1
+		MemoizeUntil.clear_now_for(:day, :default)
+		return_val = memoize_day(:default) { 2 }
+		assert_equal return_val, 2
 	end
 
 	private
@@ -81,15 +90,15 @@ class MemoizeUntilTest < Minitest::Test
 	end
 
 	def clear_day
-		MemoizeUntil.const_get(:TYPE_FACTORY)[:day].clear_all(:default)
+		MemoizeUntil.clear_now_for(:day, :default)
 	end
 
 	def clear_min
-		MemoizeUntil.const_get(:TYPE_FACTORY)[:min].clear_all(:default)
+		MemoizeUntil.clear_now_for(:min, :default)
 	end
 
 	def clear_week
-		MemoizeUntil.const_get(:TYPE_FACTORY)[:week].clear_all(:default)
+		MemoizeUntil.clear_now_for(:week, :default)
 	end
 
 end

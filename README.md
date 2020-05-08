@@ -36,6 +36,18 @@ gem 'memoize_until'
 For most use cases, the list of purposes that come will not suffice. You can define your custom list of config purposes that you wish to memoize for, by including a `config/memoize_until.yml` in the root directory of your application. Here is an [example](/examples/memoize_until.yml) to help you with the file structure. 
 
 ## Testing
+
+To clear the currently memoized value for a purpose, you can use the `clear_now` API.
+
+```ruby
+irb:> MemoizeUntil.day(:default) { 1 } # 1
+irb:> MemoizeUntil.clear_now_for(:day, :default) 
+irb:> MemoizeUntil.day(:default) { 2 } # 2
+```
+
+#### Note: This API only clears the currently memoized value in the current running process and will not mitigate to other processes in a multiprocess world. This is recommended to be used only for testing setup.
+
+## Contributing
 To run test cases,
 ```shell
 bundle install
