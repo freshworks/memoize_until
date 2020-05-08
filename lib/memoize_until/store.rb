@@ -27,14 +27,14 @@ class MemoizeUntil
 
     # clears all previously memoized values for the given key
     # only clears memory in the process that this code runs.
-    # added for fetch and custom scripts
+    # added for supporting fetch and custom scripts
     def clear_all(key)
       _store[key] = {}
     end
 
     # clears previously memoized value for "now" for the given key
-    # only clears memory in the process that this code runs.
-    # added for custom scripts
+    # only clears memory in the process that this code runs on.
+    # added for supporting custom scripts / test cases
     def clear_now(key)
       now = Time.now.public_send(_kind)
       _store[key][now] = nil

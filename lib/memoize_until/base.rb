@@ -47,4 +47,19 @@ class MemoizeUntil
   def self.add_to(kind, key)
     TYPE_FACTORY[kind].add(key)
   end
+  
+  # clears previously memoized value for "now" for the given key
+  # only clears memory in the process that this code runs on.
+  # added for supporting custom scripts / test cases
+  #
+  # @param kind [Symbol] one of the default or customised kind supported
+  # @param key [Symbol] the purpose defined in memoize_until.yml or :default.
+  #
+  # @example Clearing currently memoised value for today for :default.
+  #   MemoizeUntil.clear_for(:day, :default)
+  #
+  # @return nil
+  def self.clear_now_for(kind, key)
+    TYPE_FACTORY[kind].clear_now(key)
+  end
 end
