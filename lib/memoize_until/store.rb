@@ -1,10 +1,11 @@
 class MemoizeUntil
   class Store
-    attr_reader :_store, :_kind
+    attr_reader :_store, :_kind, :_mutex
 
     def initialize(kind)
       @_store = {}
       @_kind = kind
+      @_mutex = Mutex.new
     end
 
     # returns the value from memory if already memoized for "now" for the given key
@@ -13,23 +14,29 @@ class MemoizeUntil
     def fetch(key, &block)
       now = Time.now.public_send(_kind)
       value = get(key, now)
-      unless value
+
+      if value.nil?
         clear_all(key)
-        value = set(key, now, yield)
+        value = set(key, now, set_nil(yield))
       end
+
       unset_nil(value)
     end
 
     # add runtime keys
     def add(key)
-      _store[key] ||= {}
+      _mutex.synchronize do
+        _store[key] ||= {}
+      end
     end
 
     # clears all previously memoized values for the given key
     # only clears memory in the process that this code runs.
     # added for supporting fetch and custom scripts
     def clear_all(key)
-      _store[key] = {}
+      _mutex.synchronize do
+        _store[key] = {}
+      end
     end
 
     # clears previously memoized value for "now" for the given key
@@ -37,7 +44,7 @@ class MemoizeUntil
     # added for supporting custom scripts / test cases
     def clear_now(key)
       now = Time.now.public_send(_kind)
-      _store[key][now] = nil
+      set(key, now, nil)
     end
 
     private
@@ -53,13 +60,17 @@ class MemoizeUntil
     end
 
     def set(key, now, value)
-      _store[key][now] = set_nil(value)
+      _mutex.synchronize do
+        _store[key][now] = value
+      end
     end
 
     def get(key, now)
-      purpose = _store[key]
-      raise NotImplementedError unless purpose
-      purpose[now]
+      _mutex.synchronize do
+        purpose = _store[key]
+        raise NotImplementedError unless purpose
+        purpose[now]
+      end
     end
   end
 end
