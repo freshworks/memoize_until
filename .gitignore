@@ -10,3 +10,4 @@
 .vscode/
 *.gem
 .DS_Store
+.byebug_history
