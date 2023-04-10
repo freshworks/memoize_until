@@ -1,7 +1,8 @@
-require "test_helper"
+# frozen_string_literal: true
+
+require 'test_helper'
 
 class MemoizeUntilTest < Minitest::Test
-
   def setup
     clear_all_values
   end
@@ -18,12 +19,13 @@ class MemoizeUntilTest < Minitest::Test
     threads.map(&:join)
 
     return_val = memoize_day(:default) { 1 }
-    assert_match /hello world/, return_val
+
+    assert_match(/hello world/, return_val)
   end
 
   def test_exception
-    assert_raises MemoizeUntil::NotImplementedError do 
-      memoize_day(:exception) { "hello world" }
+    assert_raises MemoizeUntil::NotImplementedError do
+      memoize_day(:exception) { 'hello world' }
     end
   end
 
@@ -39,7 +41,7 @@ class MemoizeUntilTest < Minitest::Test
     init_val = memoize_week(:default) { false }
     return_val = memoize_week(:default) { 123 }
 
-    assert_equal return_val, false
+    refute(return_val)
     assert_equal return_val, init_val
   end
 
@@ -48,42 +50,40 @@ class MemoizeUntilTest < Minitest::Test
     memoize_day(:new_key) { 1000 }
     MemoizeUntil.add_to(:day, :new_key)
     return_val = memoize_day(:new_key) { 1 }
-    assert_equal return_val, 1000
+
+    assert_equal(1000, return_val)
   end
 
   def test_memoization_expiration
-    memoize_min(:default) { "hello world" }
+    memoize_min(:default) { 'hello world' }
     sleep(60)
-    return_val = memoize_min(:default) { "hello world 2" }
-    assert_equal return_val, "hello world 2"
+    return_val = memoize_min(:default) { 'hello world 2' }
+
+    assert_equal('hello world 2', return_val)
   end
 
   def test_clear_now_for
     return_val = memoize_day(:default) { 1 }
-    assert_equal return_val, 1
+
+    assert_equal(1, return_val)
     MemoizeUntil.clear_now_for(:day, :default)
     return_val = memoize_day(:default) { 2 }
-    assert_equal return_val, 2
+
+    assert_equal(2, return_val)
   end
 
   private
 
-  def memoize_day(key)
-    MemoizeUntil.day(key) {
-      yield
-    }
+  def memoize_day(key, &block)
+    MemoizeUntil.day(key, &block)
   end
 
-  def memoize_min(key)
-    MemoizeUntil.min(key) {
-      yield
-    }
+  def memoize_min(key, &block)
+    MemoizeUntil.min(key, &block)
   end
 
-  def memoize_week(key)
-    MemoizeUntil.week(key) {
-      yield
-    }
+  def memoize_week(key, &block)
+    MemoizeUntil.week(key, &block)
   end
 
   def clear_all_values
@@ -103,5 +103,4 @@ class MemoizeUntilTest < Minitest::Test
   def clear_week
     MemoizeUntil.clear_now_for(:week, :default)
   end
-
 end

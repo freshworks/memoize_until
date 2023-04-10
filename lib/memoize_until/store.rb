@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MemoizeUntil
   class Store
     attr_reader :_store, :_kind, :_mutex
@@ -11,7 +13,7 @@ class MemoizeUntil
     # returns the value from memory if already memoized for "now" for the given key
     # else evaluates the block and memoizes that
     # caches nils too
-    def fetch(key, &block)
+    def fetch(key)
       now = Time.now.public_send(_kind)
       value = get(key, now)
 
@@ -69,6 +71,7 @@ class MemoizeUntil
       _mutex.synchronize do
         purpose = _store[key]
         raise NotImplementedError unless purpose
+
         purpose[now]
       end
     end
