@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   # to allow pushing to a single host or delete this section to allow pushing to any host.
   raise 'RubyGems 2.0 or newer is required to protect against public gem pushes.' unless spec.respond_to?(:metadata)
 
-  spec.required_ruby_version = '~> 2.6.9'
+  spec.required_ruby_version = '>= 2.6.9'
 
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
 
