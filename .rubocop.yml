@@ -3,11 +3,6 @@ require: rubocop-minitest
 AllCops:
   TargetRubyVersion: 2.6.9
   NewCops: enable
-  Exclude:
-    - 'lib/generators/**/*'
-    - 'tmp/**/*'
-    - 'spec/**/*'
-    - 'vendor/**/*' # added by github actions
 
 Style/Documentation:
   Enabled: false
