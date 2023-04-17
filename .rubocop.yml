@@ -1,0 +1,22 @@
+require: rubocop-minitest
+
+AllCops:
+  TargetRubyVersion: 2.6.9
+  NewCops: enable
+
+Style/Documentation:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 175
+
+Metrics/MethodLength:
+  Max: 15
+
+Naming/AccessorMethodName:
+  Exclude:
+    - 'lib/memoize_until/store.rb'
+
+Style/MutableConstant:
+  Exclude:
+    - 'lib/memoize_until/base.rb'
