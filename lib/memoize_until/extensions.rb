@@ -1,12 +1,13 @@
+# frozen_string_literal: true
+
 class MemoizeUntil
-	
-	class NotImplementedError < StandardError; end
-	
-	class NullObject
-		
-		def self.instance
-			@@null_object ||= NullObject.new
-		end
-		
-	end
+  class NotImplementedError < StandardError; end
+
+  class NullObject
+    @null_object ||= NullObject.new
+
+    def self.instance
+      @null_object
+    end
+  end
 end
