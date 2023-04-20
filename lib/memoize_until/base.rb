@@ -3,8 +3,8 @@
 class MemoizeUntil
   memoizable_attributes = YAML.load_file("#{__dir__}/config/defaults.yml")
 
-  if defined?(Rails) && File.exist?(Rails.root.join('/config/memoize_until.yml'))
-    memoizable_attributes.deep_merge!(YAML.load_file(Rails.root.join('/config/memoize_until.yml')))
+  if defined?(Rails) && File.exist?(Rails.root.join('config/memoize_until.yml'))
+    memoizable_attributes.deep_merge!(YAML.load_file(Rails.root.join('config/memoize_until.yml')))
   end
 
   TYPE_FACTORY = {}
