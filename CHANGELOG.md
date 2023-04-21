@@ -1,5 +1,6 @@
 ## 1.3.1  - 21 April, 2023
 * [DEPRECATION FIX] File.exists? is changed to File.exist?, since File.exists? is deprecated in Ruby 3.x. [#11](https://github.com/freshworks/memoize_until/pull/11). Thanks to [@ruban-thilak](https://github.com/ruban-thilak).
+* [ENHANCEMENT] Add CI checks for rubocop and minitest via Github actions. [#12](https://github.com/freshworks/memoize_until/pull/12). Thanks to [@ruban-thilak](https://github.com/ruban-thilak).
 
 ## 1.3.0  - 18 March, 2021
 * [ENHANCEMENT] memoize_until is now thread safe [fc2b98f](https://github.com/freshworks/memoize_until/commit/fc2b98f197e641a5668ded1d332f9412fe231422). Thanks to [@ritikesh](https://github.com/ritikesh).
